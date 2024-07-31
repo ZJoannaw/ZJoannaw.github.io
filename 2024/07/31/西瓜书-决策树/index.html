@@ -22,7 +22,7 @@
 
   
 
-  <title>about | Hexo</title>
+  <title>西瓜书-决策树 | Hexo</title>
 
   
 
@@ -46,7 +46,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
     <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
   
@@ -96,36 +96,110 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">about</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">西瓜书-决策树</h1>
+          <h2 class="title-sub-wrap">
+            <strong>John Doe</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-07-31T13:59:08.105Z" itemprop="datePublished">2024-07-31</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><p><img src="https://i-blog.csdnimg.cn/blog_migrate/8aa99a74d1bc1f6170667dd781ba1d07.png" alt="在这里插入图片描述"></p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/a539bb89b48717cd98379412faf222b6.png" alt="在这里插入图片描述"><br>决策树划分时，当前属性集为空，或所有样本在所有属性上取值相同，将结点标记为叶节点，其类别标记为当前样本集中样本数最多的类。</p>
+<p>决策树算法的核心在于：选择最优划分属性<br>判别分类的三种情形：</p>
+<ul>
+<li>当前节点包含的样本全属于一个类别，则可视为叶子节点，分类就是本身</li>
+<li>当前节点为空，则分类就是父类的分类</li>
+<li>当前节点包含样本不全属于一个类别，那么多数作为类别<img src="https://i-blog.csdnimg.cn/blog_migrate/b15381dcb9b8b319066dddbdd38d2ad9.png" alt="在这里插入图片描述"></li>
+</ul>
+<h2 id="信息增益information-gain"><a href="#信息增益information-gain" class="headerlink" title="信息增益information gain"></a>信息增益information gain</h2><p><img src="https://i-blog.csdnimg.cn/blog_migrate/490f54af822af356c9c880bac454be56.png" alt="在这里插入图片描述"></p>
+<h3 id="ID3"><a href="#ID3" class="headerlink" title="ID3"></a>ID3</h3><p>在二分类任务中，若当前样本集合的正类和负类的数量刚好各一半，此时信息熵为$Ent(D)&#x3D;-(\frac{1}{2}log_{2}\frac{1}{2}+\frac{1}{2}log_{2}\frac{1}{2})&#x3D;1$<br>信息增益&#x3D;划分前的信息熵-第v个分支的权重*划分后的信息熵<br><img src="https://i-blog.csdnimg.cn/blog_migrate/bb0be292149a95dfa620192b5023b6e6.png" alt="在这里插入图片描述"><img src="https://i-blog.csdnimg.cn/blog_migrate/2fb640e02a8fd601cc0df1f9d10ab143.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/0f463eb63af39d9a466ee86469f37d6a.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/698cb00d198324b282b80a025c3db353.png" alt="在这里插入图片描述"><img src="https://i-blog.csdnimg.cn/blog_migrate/db6c31b6ca37ad90d4414a19ff93d4ea.png" alt="在这里插入图片描述"><img src="https://i-blog.csdnimg.cn/blog_migrate/cb053cfda5cffe7e3c12e7541f4bede0.png" alt="在这里插入图片描述"></p>
+<h3 id="C4-5"><a href="#C4-5" class="headerlink" title="C4.5"></a>C4.5</h3><p>$IV(a)$的形式是在做规范化，其把原来不可以直接比较的东西变得可比较。归一化是规范化的特例，归一化是把规范化的范围限制在[0,1]区间。<br>由于无法判断$Gain(D,a)$与$IV(a)$之间应该是控制$Gain(D,a)$更大，还是控制$IV(a)$更小，采用启发式的方法——先从候选划分属性中找出信息增益高于平均水平的，再从中选取增益率最高的。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/b80b311c7c94ce1b4291822094759253.png" alt="在这里插入图片描述"></p>
+<h3 id="CART算法，基尼指数"><a href="#CART算法，基尼指数" class="headerlink" title="CART算法，基尼指数"></a>CART算法，基尼指数</h3><p>按照概率来理解，如果每次抓两个球，如果两次抓到的球属于同一类，说明候选属性集合比较纯；因此$Gini(D)$中，抓球抓到第一类的概率是$\sum_{k&#x3D;1}^{|y|}p_k$,抓球抓到第二类的概率是$\sum_{k \prime \ne k}p_k^{\prime}$,如果二者乘积越小，数据集D的纯度越高。同理，用1-两次抓出相同类型球的概率（纯度）&#x3D;不纯度,即$Gini(D)$.<br><img src="https://i-blog.csdnimg.cn/blog_migrate/8946cade3791f98c6355ee39733cf2e5.png" alt="在这里插入图片描述"></p>
+<h3 id="以上三种划分算法的区别"><a href="#以上三种划分算法的区别" class="headerlink" title="以上三种划分算法的区别"></a>以上三种划分算法的区别</h3><h5 id="划分选择VS剪枝"><a href="#划分选择VS剪枝" class="headerlink" title="划分选择VS剪枝"></a>划分选择VS剪枝</h5><p><strong>划分选择</strong>的三种算法差异不明显；而<strong>剪枝</strong>方法和程度对决策树泛化性能的影响更为显著。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/7ca5a1de9c88565370280e8f22ea1a4b.png" alt="在这里插入图片描述"><br>剪枝的目的在于尽量避免过拟合，基本策略包括预剪枝和后剪枝，评估剪枝前后的优劣用到第二章的评估方法。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/019d2180d3a598487e49f90596becdb8.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/37bc54ae94393577f9f8837cce981d82.png" alt="在这里插入图片描述"><img src="https://i-blog.csdnimg.cn/blog_migrate/c6d8c67a808a3dc5ab33bca0e44e2466.png" alt="在这里插入图片描述"></p>
+<h2 id="缺失值的处理思路"><a href="#缺失值的处理思路" class="headerlink" title="缺失值的处理思路"></a>缺失值的处理思路</h2><p><img src="https://i-blog.csdnimg.cn/blog_migrate/57afe529262040004f45bc7cb0043a03.png" alt="在这里插入图片描述"></p>
+<h3 id="样本赋权，权重划分"><a href="#样本赋权，权重划分" class="headerlink" title="样本赋权，权重划分"></a>样本赋权，权重划分</h3><p><img src="https://i-blog.csdnimg.cn/blog_migrate/34001fa50a3b6fb7db9fcd52548a6e96.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/103ebe7ffee9398350aa862e118ad061.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/6e760770f53d83feb808c46957473321.png" alt="在这里插入图片描述"><br>权重划分：给定划分属性，若样本在该属性上的值缺失，会按权重同时进入所有分支。<br>对于缺失值样本（红色），其在三个类别上的权重不再是1，而分别是7&#x2F;15,5&#x2F;15.3&#x2F;15，注意，虽然有17个样本，但2个缺失，故分母取得15.</p>
+
       </section>
 
       
       
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E8%A5%BF%E7%93%9C%E4%B9%A6%E2%80%94%E2%80%94%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">西瓜书——模型评估与选择</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">西瓜书-第三章线性模型</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -162,6 +236,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -207,7 +283,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">

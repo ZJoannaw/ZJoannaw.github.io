@@ -22,7 +22,7 @@
 
   
 
-  <title>about | Hexo</title>
+  <title>西瓜书——模型评估与选择 | Hexo</title>
 
   
 
@@ -46,7 +46,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
     <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
   
@@ -96,36 +96,119 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">about</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">西瓜书——模型评估与选择</h1>
+          <h2 class="title-sub-wrap">
+            <strong>John Doe</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-07-31T13:59:08.111Z" itemprop="datePublished">2024-07-31</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <p>泛化能力：我们希望模型在未见样本上表现好。<br>过拟合和欠拟合：该方法如何缓解过拟合？该缓解拟合的方法什么时候失效？<br>模型选择的三个关键问题：</p>
+<h1 id="评估方法"><a href="#评估方法" class="headerlink" title="评估方法"></a>评估方法</h1><ul>
+<li>如何获得测试结果？→评价方法<br>-1、留出法：<br>保证数据分布一致性，例如分层采样，不能破坏数据的独立同分布原则<br>多次重复划分，例如100次随机划分，以避免因为划分造成的模型训练误差<br>测试集不能太大，不能太小，一般是1&#x2F;5或者1&#x2F;3的测试集，以避免训练集与原数据集相差较大<br>2、K折交叉验证法&#x2F;留一法<br>例如10折交叉验证即将原数据集分成10个等量集合， 9个集合用于训练，一个集合用于测试，经过10次这样的切分，生成10个测试结果，平均之后返回结果。随机划分也是10×10&#x3D;100。<img src="https://i-blog.csdnimg.cn/blog_migrate/e4420f4632d398363c8c200543d34cb3.png" alt="在这里插入图片描述"><br>3、自助法<br>基于自助采样bootstrap sampling,本质是有放回采样&#x2F;可重复采样，运用极限定理，求出约有36.8%的样本不出现，而这36.8%的样本也称为包外估计out of bag estimation，将这些未在训练集中出现的样本作为测试集。<br>优点，训练集与原样本集同规模<br>缺点，数据分布有所改变，也可以理解为某个值的重要性发生了改变。<br>适用于，学习任务对数据分布的轻微变化比较鲁棒，且数据量较少。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/0a15c08b603ef5e3a309e25edaaf0d30.jpeg" alt="在这里插入图片描述"></li>
+</ul>
+<h2 id="调参与最终模型"><a href="#调参与最终模型" class="headerlink" title="调参与最终模型"></a>调参与最终模型</h2><p>算法的参数一般由人工设定，亦称超参数<br>模型的参数一般由学习确定<br>调参过程，先产生若干模型，然后基于某种评估方法进行选择<br>参数调得好不好对最终性能有关键影响</p>
+<h1 id="性能度量"><a href="#性能度量" class="headerlink" title="性能度量"></a>性能度量</h1><ul>
+<li>如何评价评估性能优劣？→性能度量</li>
+<li>性能度量是衡量模型泛化能力的评价标准，反映了任务需求。</li>
+<li>使用不同的性能度量，往往会导致不同的评判结果。</li>
+<li>什么样的模型是好的，不仅取决于算法和数据，还取决于任务需求</li>
+</ul>
+<h2 id="常用的性能度量"><a href="#常用的性能度量" class="headerlink" title="常用的性能度量"></a>常用的性能度量</h2><ul>
+<li>回归任务常用均方误差<br>$e&#x3D;\frac{1}{m}\sum_{i&#x3D;1}^{m}(f(x_i)-y_i)$</li>
+<li>错误率即错误的次数，加和求平均。精度即是一减去错误率</li>
+<li>查准率和查全率<br>查准率<br>$p&#x3D;\frac{TP}{TP+FP}$<br>查全率<br>$R&#x3D;\frac{TP}{TP+FN}$</li>
+</ul>
+<p>F1度量<br>$\frac{1}{F1}&#x3D;1&#x2F;2*(\frac{1}{P}+\frac{1}{R})$</p>
+<h1 id="比较检验"><a href="#比较检验" class="headerlink" title="比较检验"></a>比较检验</h1><ul>
+<li>如何判断实质差别？→比较检验，说明模型在统计意义上表现好<br>比较两个学习器的常用方法<br>通过假设检验，比较假设检验成立的显著性</li>
+</ul>
+<ol>
+<li>交叉验证T检验(基于成对的T检验)，比如K轴交叉验证，5×2交叉验证</li>
+<li>McNeman检验,基于列联表,卡方检验。</li>
+</ol>
+
       </section>
 
       
       
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E7%94%A8Python%E5%88%86%E6%9E%90%E3%80%8A%E8%87%B4%E6%88%91%E4%BB%AC%E6%9A%96%E6%9A%96%E7%9A%84%E5%B0%8F%E6%97%B6%E5%85%89%E3%80%8B%E7%9A%841%E4%B8%87%E6%9D%A1%E5%BC%B9%E5%B9%95%EF%BC%8C%E6%88%91%E5%8F%91%E7%8E%B0%E4%BA%86%E8%BF%99%E4%BA%9B%E2%80%A6%E2%80%A6/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">(no title)</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E5%86%B3%E7%AD%96%E6%A0%91/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">西瓜书-决策树</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -162,6 +245,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -207,7 +292,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">

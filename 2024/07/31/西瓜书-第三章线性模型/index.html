@@ -22,7 +22,7 @@
 
   
 
-  <title>about | Hexo</title>
+  <title>西瓜书-第三章线性模型 | Hexo</title>
 
   
 
@@ -46,7 +46,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
     <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
   
@@ -96,36 +96,107 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">about</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">西瓜书-第三章线性模型</h1>
+          <h2 class="title-sub-wrap">
+            <strong>John Doe</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-07-31T13:59:08.099Z" itemprop="datePublished">2024-07-31</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>适合处理数值问题。<br>$f(x_i)&#x3D;wx_i+b$使得$f(x_i)$约等于$y_i$<br>离散属性的处理：若有序order,则连续化；否则需要通过编码，转化为k维向量<br><strong>求解最优解</strong>：对$E_{(a,b)}&#x3D;\sum_{i&#x3D;1}^{m}(y_i-wx_i-b)^2$进行最小二乘参数估计，分别对w和b求偏导，令等式为0，即可求出w和b。<br>解释为何一定是最优解？<br>因为在导数为0处，要么是局部极大要么局部极小，由于是求偏离的程度$E_{(a,b)}$，它的极大值只会是无穷大，因此在导数为0处，再也不会再小了，就是取得极小的点。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/61aef40cdc395a26909aa4f935dfd071.png" alt="在这里插入图片描述"></p>
+<h4 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h4><p><img src="https://i-blog.csdnimg.cn/blog_migrate/7b42a924758cab929f73d83890099b91.png" alt="在这里插入图片描述"><img src="https://i-blog.csdnimg.cn/blog_migrate/0b80bd4f7abe4de3896f01f3f135dadd.png" alt="无法解出唯一值，引入正则化或者归纳偏好"></p>
+<h4 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h4><p><img src="https://i-blog.csdnimg.cn/blog_migrate/1e04f3adee64a9d0e4a2d04f4de6cba3.png" alt="在这里插入图片描述"></p>
+<h4 id="对率回归logistic-regression"><a href="#对率回归logistic-regression" class="headerlink" title="对率回归logistic regression"></a>对率回归logistic regression</h4><p><img src="https://i-blog.csdnimg.cn/blog_migrate/ee37724a39be282033f2e154d7ac0669.png" alt="在这里插入图片描述"><br>几率：正例的概率&#x2F;负例的概率<br><img src="https://i-blog.csdnimg.cn/blog_migrate/9db596c35942c092ed270cec62505f53.png" alt="在这里插入图片描述"><br>对率回归：针对分类问题，</p>
+<ul>
+<li><strong>无需实现假设数据分布</strong>——没有独立同分布假设</li>
+<li>可得到“类别”的近似<strong>概率预测</strong></li>
+<li>可直接应用现有的数值优化算法库 求解最优问题</li>
+</ul>
+<h5 id="求解步骤"><a href="#求解步骤" class="headerlink" title="求解步骤"></a>求解步骤</h5><p>梯度为0是极值点的前提条件是原函数是凸函数，而$(\frac{1}{e^{-(wx+b)}}-y)^2$不是一个凸函数，所以不能直接求导，令等式为0.</p>
+<p>正确方法是使用极大似然法。求<br>$max P(真正例)P(预测正)+P(真负例)P(预测负)$,推导出来的式子是一个高阶可导连续函数，之后通过梯度下降&#x2F;牛顿法求解梯度等于0的解。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/1c40cadb3659009d7c6c2ff5751f7c01.png" alt="在这里插入图片描述"></p>
+<h4 id="类别不平衡——正负类占总类的比例不一样，不是无偏采样"><a href="#类别不平衡——正负类占总类的比例不一样，不是无偏采样" class="headerlink" title="类别不平衡——正负类占总类的比例不一样，不是无偏采样"></a>类别不平衡——正负类占总类的比例不一样，不是无偏采样</h4><p>$\frac{y}{1-y}&gt;1$隐含信息就是$y&gt;1&#x2F;2$，也就是当类别平衡的时候在[0,1]区间大于1&#x2F;2就判定为正例，小于1&#x2F;2就判定为负例。<br>若采样不平衡，就要采用——再缩放，比如用$\frac{m^+}{m^-}$替换1&#x2F;2，就是采用阈值移动的方法<br>类别不平衡问题中，<strong>当小类比大类重要时</strong>，需要做特殊处理。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/c6cec9ec64a08a3a4dd42be3f79d68e3.png" alt="在这里插入图片描述"></p>
+
       </section>
 
       
       
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E5%86%B3%E7%AD%96%E6%A0%91/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">西瓜书-决策树</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5%E7%88%AC%E5%8F%96%E6%96%B0%E5%86%A0%E7%96%AB%E6%83%85%E5%BF%AB%E8%AE%AF/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">人民日报爬取新冠疫情快讯</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -162,6 +233,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -207,7 +280,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">

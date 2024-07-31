@@ -22,7 +22,7 @@
 
   
 
-  <title>ZJoannaw | Hexo</title>
+  <title>Hexo</title>
 
   
 
@@ -99,11 +99,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">ZJoannaw</h1>
+          <h1 class="title-wrap"></h1>
           <h2 class="title-sub-wrap">
             <strong>John Doe</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-07-28T14:53:23.000Z" itemprop="datePublished">2024-07-28</time>
+            <time  class="article-date" datetime="2024-07-31T13:59:08.117Z" itemprop="datePublished">2024-07-31</time>
           </h2>
           
           
@@ -134,12 +134,69 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <hr>
+<h2 id="用Python分析《致我们暖暖的小时光》的1万条弹幕，我发现了这些……"><a href="#用Python分析《致我们暖暖的小时光》的1万条弹幕，我发现了这些……" class="headerlink" title="用Python分析《致我们暖暖的小时光》的1万条弹幕，我发现了这些……"></a>用Python分析《致我们暖暖的小时光》的1万条弹幕，我发现了这些……</h2><p>《致我们暖暖的小时光》是一部都市青春爱情网剧。 该剧根据赵乾乾的同名小说改编，讲述了氧气少女司徒末与物理天才顾未易意外合租后发生的一段暖甜逗趣的恋爱故事。 </p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/e95b1bcc466721ca81056d596a0a0a9b.png" alt="在这里插入图片描述"></p>
+<p>我们今天就用Python分析了《致我们暖暖的小时光》的视频弹幕以及豆瓣短评，看看大家对于什么。</p>
+<h2 id="豆瓣评分"><a href="#豆瓣评分" class="headerlink" title="豆瓣评分"></a>豆瓣评分</h2><p>《致我们暖暖的小时光》，<strong>分数为7.7分</strong>， 共有14万余人评分。</p>
+<p>我们用Python分析了豆瓣的热评数据，从评分分布可以看到：<br><img src="https://i-blog.csdnimg.cn/blog_migrate/54a53303234ac4325e1749917b9e7764.png" alt="在这里插入图片描述"></p>
+<p>分数占比方面，<strong>25.9%的人给出5星</strong>，42.1%的人给出4星。给出1星好评的仅有1.2%。</p>
+<p>通过分析了短评中197条数据，筛出一些无用词汇后，统计出各情感表达词段出现的评率并绘制对应的柱状图。</p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/8b628301e47c55d7daaf3b9d5a697c7b.png" alt="在这里插入图片描述"></p>
+<p>对于用户短评中的情感分析得到：</p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/50f332727b81ac09e0579828f490ae2a.png" alt="在这里插入图片描述"></p>
+<p>接近1.0代表好评，可以看出好评率很高。</p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/f8f8382e44c92a820063436ffb157c4a.png" alt="在这里插入图片描述"><br>情感区间为[-0.5, 0.5]，位于0以上的是积极评论，反之消极评论。可见，积极评论较多，用户对剧情的反馈较好。</p>
+<h1 id="评价关键词可视化"><a href="#评价关键词可视化" class="headerlink" title="评价关键词可视化"></a>评价关键词可视化</h1><p><img src="https://i-blog.csdnimg.cn/blog_migrate/b7bc6cf202a77da09c91352330fbb046.jpeg" alt="在这里插入图片描述"><br>从评价词云图中可见，话题主要集中在男主（顾未易）、女主，并且对于剧情的评价多为正向积极的评价。此外，**”青春”、”演技”、”自然**”等也是短评中常出现的。</p>
+<p>可视化形状选自：<a target="_blank" rel="noopener" href="https://fontawesome.dashgame.com/">https://fontawesome.dashgame.com/</a></p>
+<h1 id="腾讯视频字幕"><a href="#腾讯视频字幕" class="headerlink" title="腾讯视频字幕"></a>腾讯视频字幕</h1><p><strong>分析12721条弹幕数据，看看大家的关注点在哪里</strong></p>
+<p>我们使用Python获取并分析了《致我们暖暖的小时光》的腾讯弹幕数据，爬取及分析过程如下。</p>
+<ul>
+<li>弹幕数据获取</li>
+<li>数据读入和数据预处理</li>
+<li>数据可视化</li>
+</ul>
+<p><strong>1.1 弹幕数据获取</strong></p>
+<p>首先导入需要的库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import requests  # 导入request库</span><br><span class="line">import time  # 导入time库</span><br><span class="line">import json  # 导入json库</span><br><span class="line"></span><br><span class="line">from wordcloud import WordCloud  # 从wordcloud库中导入WordCloud方法</span><br><span class="line">import jieba  # 导入jieba库</span><br><span class="line">from PIL import Image  # 从PIL库中导入Image方法</span><br><span class="line">import numpy as np  # 导入numpy库，并将名称简写为np(写成其他简写也可，例如abc，只要方便使用即可)</span><br></pre></td></tr></table></figure>
+<p>接着发送请求获取html代码，并在腾讯视频登录后找到user-agent、referer、cookie，</p>
+<p>具体步骤如下：<br><img src="https://i-blog.csdnimg.cn/blog_migrate/cedb41289499f25f62f1581bc0300df9.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/427ec8c9fdcd4feabe6b2f97e9127189.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/cb6bb4659d199c93306d79497a02b98c.png" alt="在这里插入图片描述"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class ChatSpider:</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.session = requests.Session()</span><br><span class="line">        # 自定义的请求头数据</span><br><span class="line">        self.headers = &#123;</span><br><span class="line">            &#x27;user-agent&#x27;: &#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36 &#x27;,</span><br><span class="line">            &#x27;referer&#x27;: &#x27;https://v.qq.com/channel/tv?channel=tv&amp;feature=10&amp;listpage=1&amp;pay=867&#x27;,</span><br><span class="line">            &#x27;cookie&#x27;: &#x27;账号登录后的cookie&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">        # 设置 session 的全局 headers</span><br><span class="line">        self.session.headers.update(self.headers)</span><br></pre></td></tr></table></figure>
+<p>接着进行数据的解析和保存：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def get_data(self):</span><br><span class="line">    self.data = []  # 创建空列表，用于保存数据</span><br><span class="line">    for i in range(100, 1500, 30):  # 使用for循环得到每一个完整的请求地址，i 传入 timestamp 参数</span><br><span class="line">        params = &#123;</span><br><span class="line">            &quot;otype&quot;: &quot;json&quot;,</span><br><span class="line">            &quot;target_id&quot;: &quot;3833477302&amp;vid=z00300gtbcw&quot;,</span><br><span class="line">            &quot;session_key&quot;: &quot;1759797,52440,1638861908&quot;,</span><br><span class="line">            &quot;timestamp&quot;: str(i),</span><br><span class="line">            &quot;_&quot;: &quot;1638861907114&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        req = self.session.get(&#x27;https://mfm.video.qq.com/danmu&#x27;, params=params)</span><br><span class="line">        req_josn = json.loads(req.text)  # 识别出字符串中的 json 格式</span><br><span class="line">        for i in req_josn[&#x27;comments&#x27;]:  # 分析 josn格式 的数据，找到弹幕在字典中&gt;comments 中&gt; content</span><br><span class="line">            print(i[&#x27;content&#x27;]) # 打印出弹幕内容</span><br><span class="line">            self.data.append(i[&#x27;content&#x27;])</span><br><span class="line">        time.sleep(10)  # 延时一段时间，防止爬取过快被封禁</span><br><span class="line"></span><br><span class="line">def process_data(self):</span><br><span class="line">    pass  # 空语句</span><br><span class="line"></span><br><span class="line">def save_data(self):</span><br><span class="line">    with open(&#x27;./danmu.txt&#x27;, &#x27;a+&#x27;, encoding=&#x27;utf-8&#x27;) as file:</span><br><span class="line">        for i in self.data:</span><br><span class="line">            file.write(i + &#x27;\n&#x27;)  # 在保存数据的同时加上了换行符，方便查看弹幕</span><br></pre></td></tr></table></figure>
+<p><strong>分析：</strong></p>
+<p>1.1.1首先点击某一个弹幕，打开开发者工具，找到Request URL,寻找其中的规律<br><img src="https://i-blog.csdnimg.cn/blog_migrate/2a182c0bc6d1ccc52e38c800cbf2587d.png" alt="在这里插入图片描述"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://mfm.video.qq.com/danmu?otype=json&amp;callback=jQuery191006807634861214984_1638861907086&amp;target_id=3833477302%26vid%3Dz00300gtbcw&amp;session_key=1759797%2C52440%2C1638861908&amp;timestamp=75&amp;_=1638861907114 </span><br><span class="line"></span><br><span class="line">https://mfm.video.qq.com/danmu?otype=json&amp;callback=jQuery191006807634861214984_1638861907090&amp;target_id=3833477302%26vid%3Dz00300gtbcw&amp;session_key=1759797%2C52440%2C1638861908&amp;timestamp=45&amp;_=1638861907108 </span><br></pre></td></tr></table></figure>
+<p>分析得出target_id、session_key相同（PS:其中%2C代表’,’),因此在请求时携带的参数params 包括target_id、session_key、timestamp、_</p>
+<p><strong>1.2 数据预处理</strong></p>
+<pre><code># 通过正则表达式实现
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    pattern = re.compile(r&#x27;([\u4e00-\u9fa5]+|[a-zA-Z]+)&#x27;)</span><br><span class="line">​    deal_comments = re.findall(pattern, comments)</span><br><span class="line">​    newComments = &#x27;&#x27;</span><br><span class="line">​    print(newComments)</span><br><span class="line">​    for item in deal_comments:</span><br><span class="line">​        newComments += item</span><br><span class="line">​    print(newComments)</span><br><span class="line">​    f.write(newComments)</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>1.3 数据可视化</strong></p>
+<p><strong>弹幕词云图</strong></p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/a43fdf6fea6b024228ff913939106048.jpeg" alt="在这里插入图片描述"><br>具体数据可见于：<br>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1mKXzJ8LnlhIgcuc481egwQ">https://pan.baidu.com/s/1mKXzJ8LnlhIgcuc481egwQ</a><br>提取码：vd2k</p>
+
       </section>
 
       
       
         <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">西瓜书-支持向量机</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
           
           
             <div class="article-nav-item layout-padding">
@@ -147,8 +204,8 @@
     
     <div class="card-text">
       
-        <a href="/2024/07/28/hello-world/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Hello World</h2>
+        <a href="/2024/07/31/%E8%A5%BF%E7%93%9C%E4%B9%A6%E2%80%94%E2%80%94%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">西瓜书——模型评估与选择</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -190,7 +247,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>2</span>
+        <span>9</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">

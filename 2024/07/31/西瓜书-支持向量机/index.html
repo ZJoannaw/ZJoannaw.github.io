@@ -22,7 +22,7 @@
 
   
 
-  <title>about | Hexo</title>
+  <title>西瓜书-支持向量机 | Hexo</title>
 
   
 
@@ -46,7 +46,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
     <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
   
@@ -96,36 +96,133 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">about</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">西瓜书-支持向量机</h1>
+          <h2 class="title-sub-wrap">
+            <strong>John Doe</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-07-31T13:59:08.122Z" itemprop="datePublished">2024-07-31</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <h3 id="支持向量机"><a href="#支持向量机" class="headerlink" title="支持向量机"></a>支持向量机</h3><blockquote>
+<blockquote>
+<p><strong>支持向量</strong>:距离超平面最近的这几个训练样本点。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/6edc4ee1177feb7cee03e2b3c282ab1b.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/e7f386b383050e1ca819639a46744c49.png" alt="在这里插入图片描述"><br>支持向量机的核心思想是<strong>最大化间隔</strong>$\gamma &#x3D; \frac{2}{||w||}$。<br>求极大转换为求极小，转化为凸规划问题。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/8b26bb4f8544a04a3da5fa08d15ed35d.png" alt="在这里插入图片描述"></p>
+</blockquote>
+</blockquote>
+<h3 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a>对偶问题</h3><blockquote>
+<p>利用拉格朗日乘子法，对于不等式约束，在其前加入一个乘子$\alpha_i \ge 0$</p>
+<p>支持向量机对偶问题得到的目标函数最优值是原始问题目标函数最优值的下界<img src="https://i-blog.csdnimg.cn/blog_migrate/f3c77c56b3cfd13f48bbbaadd3b803ad.png" alt="在这里插入图片描述">KKT条件说明，要么$\alpha_i &#x3D; 0$要么$y_i \dot f(x_i)&#x3D;1$。前者说明该点不会出现在解集内，即不符合约束；后者说明该点一定在<strong>支持向量</strong>上。因此，最终模型仅与支持向量有关。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/7643bda8342a89e0d859ccc1f2e99edd.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h4 id="求解方法—SMO"><a href="#求解方法—SMO" class="headerlink" title="求解方法—SMO"></a>求解方法—SMO</h4><blockquote>
+<blockquote>
+<p>顺序性最小优化算法（<em>sequential minimal optimization</em>）</p>
+</blockquote>
+<ul>
+<li>基本思路：按照KKT条件违背程度最大准则选取变量,固定一对变量$\alpha_i$和$\alpha_j$，对偶问题的约束为$0&#x3D;\sum_{i&#x3D;1}^{m} \alpha_i y_i$， 那么这对变量的和就固定了。接着用一个变量表示另一个变量，带入对偶问题的目标函数，求得闭式解。</li>
+<li>循环重复1、2步骤，直至目标函数收敛。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/8cc272f0d9572335223c7a747b7f0199.png" alt="在这里插入图片描述"></li>
+</ul>
+</blockquote>
+<h3 id="特征空间映射"><a href="#特征空间映射" class="headerlink" title="特征空间映射"></a>特征空间映射</h3><blockquote>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/010ed7788229c110c45c6629b59a2240.png" alt="在这里插入图片描述"><br>将样本空间映射为高维空间（这个高维可以是无穷维），即将x映射为$\phi (x)$<br><img src="https://i-blog.csdnimg.cn/blog_migrate/c563492e0a2a5b49aecfb72312ffc932.png" alt="在这里插入图片描述"><br>此时内积可以用核函数表示，能绕过显式考虑特征映射，直接在原始的特征空间计算，缓解计算高维内积的困难。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/4afd809b251f14ffb3ff952701d6d99a.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h3 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h3><blockquote>
+<p>Mercer定理可以从点到点的距离数学表达理解。由于核函数的初衷是表示空间中两点的距离，因此对于对称核矩阵有:</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Ki</th>
+<th>Kj</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ki</td>
+<td>(Ki,Ki)</td>
+<td>(Ki,Kj)</td>
+</tr>
+<tr>
+<td>Kj</td>
+<td>(Kj,Ki)</td>
+<td>(Kj,Kj)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>若对称轴上每一项均大于等于0，那么Ki和Kj两点之间的距离大于等于0.<br><img src="https://i-blog.csdnimg.cn/blog_migrate/50ec09d59dafa70a1040040d78793282.png" alt="在这里插入图片描述"><br>$dist(x_1,x_2)&#x3D;|\phi(x_1)-\phi(x_2)|_{\mathcal{H}_k}^2&#x3D;\sqrt{k(x_1,x_1)-2k(x_1,x_2)+k(x_2,x_2)}$</p>
+<blockquote>
+<p>对于两个样本点(0,0),(1,1)，若我们将其投影到与高斯核函数<img src="https://i-blog.csdnimg.cn/blog_migrate/5246deb9590a1757e2aa400c896dac5f.png" alt="在这里插入图片描述"><br>关联的RKHS中时，则两个样本投影后的点距离为1.315</p>
+</blockquote>
+</blockquote>
+<h3 id="如何使用SVM"><a href="#如何使用SVM" class="headerlink" title="如何使用SVM"></a>如何使用SVM</h3><blockquote>
+<p>落在$2\epsilon$内不做惩罚，落在$2\epsilon$外部做惩罚；当样本距离超平面的距离大于一定程度时，有损失且损失随着距离线性增加；同时令所有损失加和最小。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/739053a7f5d13ac81232af65e9d35779.png" alt="在这里插入图片描述"><br><img src="https://i-blog.csdnimg.cn/blog_migrate/8f31f70fb36fa26e35fb09a7e434be78.png" alt="在这里插入图片描述"><br>间隔带两侧的松弛程度可有所不同，因此分别设定一个$\xi$值。之后的计算同样使用拉格朗日乘子法即可。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/89e05ae8a32baa1b4973dba661087ccd.png" alt="在这里插入图片描述"></p>
+</blockquote>
+
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/31/%E7%94%A8Python%E5%88%86%E6%9E%90%E3%80%8A%E8%87%B4%E6%88%91%E4%BB%AC%E6%9A%96%E6%9A%96%E7%9A%84%E5%B0%8F%E6%97%B6%E5%85%89%E3%80%8B%E7%9A%841%E4%B8%87%E6%9D%A1%E5%BC%B9%E5%B9%95%EF%BC%8C%E6%88%91%E5%8F%91%E7%8E%B0%E4%BA%86%E8%BF%99%E4%BA%9B%E2%80%A6%E2%80%A6/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">(no title)</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -162,6 +259,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -207,7 +306,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
