@@ -106,6 +106,11 @@
             <time  class="article-date" datetime="2024-07-31T13:59:08.111Z" itemprop="datePublished">2024-07-31</time>
           </h2>
           
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-09T13:20:03.199Z" itemprop="dateUpdated">2024-09-09</time>
+            </h2>
+          
           
           <ul class="wrap-list dark">
   
@@ -134,7 +139,9 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>泛化能力：我们希望模型在未见样本上表现好。<br>过拟合和欠拟合：该方法如何缓解过拟合？该缓解拟合的方法什么时候失效？<br>模型选择的三个关键问题：</p>
+        <meta name="referrer" content="no-referrer"/>
+
+<p>泛化能力：我们希望模型在未见样本上表现好。<br>过拟合和欠拟合：该方法如何缓解过拟合？该缓解拟合的方法什么时候失效？<br>模型选择的三个关键问题：</p>
 <h1 id="评估方法"><a href="#评估方法" class="headerlink" title="评估方法"></a>评估方法</h1><ul>
 <li>如何获得测试结果？→评价方法<br>-1、留出法：<br>保证数据分布一致性，例如分层采样，不能破坏数据的独立同分布原则<br>多次重复划分，例如100次随机划分，以避免因为划分造成的模型训练误差<br>测试集不能太大，不能太小，一般是1&#x2F;5或者1&#x2F;3的测试集，以避免训练集与原数据集相差较大<br>2、K折交叉验证法&#x2F;留一法<br>例如10折交叉验证即将原数据集分成10个等量集合， 9个集合用于训练，一个集合用于测试，经过10次这样的切分，生成10个测试结果，平均之后返回结果。随机划分也是10×10&#x3D;100。<img src="https://i-blog.csdnimg.cn/blog_migrate/e4420f4632d398363c8c200543d34cb3.png" alt="在这里插入图片描述"><br>3、自助法<br>基于自助采样bootstrap sampling,本质是有放回采样&#x2F;可重复采样，运用极限定理，求出约有36.8%的样本不出现，而这36.8%的样本也称为包外估计out of bag estimation，将这些未在训练集中出现的样本作为测试集。<br>优点，训练集与原样本集同规模<br>缺点，数据分布有所改变，也可以理解为某个值的重要性发生了改变。<br>适用于，学习任务对数据分布的轻微变化比较鲁棒，且数据量较少。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/0a15c08b603ef5e3a309e25edaaf0d30.jpeg" alt="在这里插入图片描述"></li>
 </ul>
